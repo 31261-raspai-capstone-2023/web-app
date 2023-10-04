@@ -1,0 +1,4 @@
+flask
+cryptography
+Flask-SQLAlchemy
+Flask-Session
