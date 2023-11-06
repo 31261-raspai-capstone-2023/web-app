@@ -28,7 +28,7 @@ def login():
         data = request.get_json()
         plate = data.get("plate")
 
-        licence_plate = LicencePlate.query.get(plate)
+        licence_plate = LicencePlate.query.get(plate.upper())
         if not licence_plate:
             return jsonify({"error": "Licence plate not found"}), 404
 
@@ -145,7 +145,7 @@ def get_car_info_by_plate(plate):
     entry = (
         db.session.query(LocationEntry, Camera.location)
         .join(Camera)
-        .filter(LocationEntry.plate == plate)
+        .filter(LocationEntry.plate.ilike(plate))
         .order_by(LocationEntry.timestamp.desc())
         .first()
     )
