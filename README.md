@@ -30,7 +30,17 @@ python -m web_app.server --debug
 ```
 
 ## Prod environment
-Docker
+Build the image
+```bash
+docker build . -t licence_system/web_app:latest
+```
+
+Run the container
+```bash
+docker run -d -p 5000:5000 licence_system/web_app:latest
+```
+
+Accessible via http://localhost:5000/
 
 ## API Usage
 ### Add a camera
