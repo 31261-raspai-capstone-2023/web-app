@@ -38,17 +38,27 @@
             $("#loginForm").on("submit", function (e) {
                 e.preventDefault();
                 var plate = $("#plate").val();
-
+    
                 $.ajax({
                     type: "POST",
                     url: "/login",
                     contentType: "application/json",
                     data: JSON.stringify({ plate: plate }),
                     success: function (response) {
-                        $("#message").html('<div class="alert alert-' + (response.error ? 'danger' : 'success') + '">' + response.message + '</div>');
-                        if (!response.error) {
+                        if (response.error) {
+                            // Handle application-level error
+                            $("#message").html('<div class="alert alert-danger">' + response.message + '</div>');
+                        } else {
+                            // Handle success
+                            $("#message").html('<div class="alert alert-success">' + response.message + '</div>');
                             window.location.href = "/";
                         }
+                    },
+                    error: function (xhr, status, error) {
+                        // If the request fails, display the error message
+                        var errorMessage = xhr.status + ': ' + xhr.statusText;
+                        var serverResponse = xhr.responseText ? ': ' + xhr.responseText : '';
+                        $("#message").html('<div class="alert alert-danger">Error - ' + errorMessage + serverResponse + '</div>');
                     }
                 });
             });
