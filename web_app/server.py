@@ -4,6 +4,7 @@ from flask_session import Session
 import argparse
 
 from web_app.models import db, Camera, LicencePlate, ParkingHistory, LocationEntry
+from sqlalchemy import func
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -28,7 +29,7 @@ def login():
         data = request.get_json()
         plate = data.get("plate")
 
-        licence_plate = LicencePlate.query.get(plate.upper())
+        licence_plate = LicencePlate.query.filter(func.lower(LicencePlate.plate) == func.lower(plate)).first()
         if not licence_plate:
             return jsonify({"error": "Licence plate not found"}), 404
 
@@ -147,7 +148,7 @@ def add_location_entry():
     )
 
 
-# @app.route('/get_car_info/<plate>', methods=['GET'])
+@app.route('/get_car_info/<plate>', methods=['GET'])
 def get_car_info_by_plate(plate):
     """Get information about licence plate
 
@@ -196,4 +197,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    app.run(host="0.0.0.0", debug=args.debug)
+    app.run(host="0.0.0.0", port="8080", debug=args.debug)
