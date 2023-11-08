@@ -148,7 +148,7 @@ def add_location_entry():
     )
 
 
-@app.route('/get_car_info/<plate>', methods=['GET'])
+# @app.route('/get_car_info/<plate>', methods=['GET'])
 def get_car_info_by_plate(plate):
     """Get information about licence plate
 
@@ -197,4 +197,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    app.run(host="0.0.0.0", port="8080", debug=args.debug)
+    app.run(host="0.0.0.0", debug=args.debug)
