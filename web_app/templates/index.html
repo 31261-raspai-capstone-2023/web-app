@@ -13,7 +13,7 @@
 
     <div class="container mt-5">
         <h1 class="mb-4">Car Information</h1>
-        <div class="card" style="width: 18rem;">
+        <div class="card" style="min-width: 10vw;">
             <div class="card-body">
                 <h5 class="card-title" id="plate">License Plate: [Loading...]</h5>
                 <p class="card-text" id="timestamp">Entry Time: [Loading...]</p>
@@ -30,7 +30,17 @@
                 url: '/get_car_info',
                 success: function (data) {
                     $('#plate').text('License Plate: ' + data.plate);
-                    $('#timestamp').text('Entry Time: ' + data.timestamp);
+                    var localTime = new Date(data.timestamp).toLocaleString('en-AU', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false
+                    }).replace(/(\d+)\/(\d+)\/(\d+), (\d+:\d+:\d+)/, '$3-$2-$1T$4');
+
+                    $('#timestamp').text('Entry Time: ' + localTime);
                     $('#location').text('Location: ' + data.location);
 
                     // Get the entry time in milliseconds since Epoch.
