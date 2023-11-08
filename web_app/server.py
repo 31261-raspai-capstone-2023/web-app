@@ -69,7 +69,7 @@ def enter_carpark():
     data = request.get_json()
     plate = data.get("plate")
     # Update or insert into licence_plates
-    licence_plate = LicencePlate.query.get(plate)
+    licence_plate = db.session.get(LicencePlate, plate)
     if licence_plate:
         licence_plate.last_seen = db.func.current_timestamp()
     else:
@@ -90,7 +90,7 @@ def exit_carpark():
     data = request.get_json()
     plate = data.get("plate")
     # Update licence_plates and parking_history
-    licence_plate = LicencePlate.query.get(plate)
+    licence_plate = db.session.get(LicencePlate, plate)
     if not licence_plate:
         return jsonify({"error": "Car not found"}), 404
 
@@ -118,13 +118,14 @@ def add_location_entry():
     camera_id = data.get("camera_id")
 
     # Check if camera_id exists
-    camera = Camera.query.get(camera_id)
+    camera = db.session.get(Camera, camera_id)
+
     if camera is None:
         return jsonify({"error": "Camera with provided ID does not exist"}), 400
     
 
     # Check if plate exists
-    licence_plate = LicencePlate.query.get(plate)
+    licence_plate = db.session.get(LicencePlate, plate)
     if licence_plate:
         licence_plate.last_seen = db.func.current_timestamp()
     else:
@@ -199,4 +200,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    app.run(host="0.0.0.0", debug=args.debug)
+    app.run(host="0.0.0.0", port="8080", debug=args.debug)

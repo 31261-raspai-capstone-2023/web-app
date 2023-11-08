@@ -10,4 +10,4 @@ RUN pip install --no-cache-dir -r /code/requirements.txt
 
 COPY ./web_app /code/web_app
 
-CMD ["python", "-m", "web_app.server"]
+CMD ["python", "-um", "web_app.server"]
