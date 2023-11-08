@@ -120,6 +120,19 @@ def add_location_entry():
     camera = Camera.query.get(camera_id)
     if camera is None:
         return jsonify({"error": "Camera with provided ID does not exist"}), 400
+    
+
+    # Check if plate exists
+    licence_plate = LicencePlate.query.get(plate)
+    if licence_plate:
+        licence_plate.last_seen = db.func.current_timestamp()
+    else:
+        licence_plate = LicencePlate(plate=plate)
+        db.session.add(licence_plate)
+
+    # Insert into parking_history
+    parking_history = ParkingHistory(plate=plate)
+    db.session.add(parking_history)
 
     # Create new LocationEntry
     location_entry = LocationEntry(plate=plate, camera_id=camera_id)
