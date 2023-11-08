@@ -140,6 +140,8 @@ def add_location_entry():
     db.session.add(location_entry)
     db.session.commit()
 
+    print(f"Logged car plate:{plate} at camera:{camera_id}")
+
     return (
         jsonify(
             {"message": "Location entry added", "plate": plate, "camera_id": camera_id}
