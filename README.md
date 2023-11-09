@@ -42,6 +42,8 @@ docker run -d -p 5000:5000 licence_system/web_app:latest
 
 Accessible via http://localhost:5000/
 
+You will need to add a camera, then use this Camera ID returned as the camera_id when adding a plate to a location.
+
 ## API Usage
 ### Add a camera
 ```bash

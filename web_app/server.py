@@ -60,7 +60,7 @@ def add_camera():
     new_camera = Camera(location=location)
     db.session.add(new_camera)
     db.session.commit()
-    return jsonify({"message": "Camera added", "location": location}), 201
+    return jsonify({"message": "Camera added", "location": location, "camera_id": new_camera.id}), 201
 
 
 @app.route("/enter_carpark", methods=["POST"])
@@ -200,4 +200,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    app.run(host="0.0.0.0", debug=args.debug)
+    app.run(host="0.0.0.0", port="8080", debug=args.debug)
